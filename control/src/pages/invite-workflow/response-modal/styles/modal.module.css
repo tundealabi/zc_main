@@ -34,7 +34,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 30px auto 20px auto;
+  margin: 30px auto 15px auto;
 }
 
 .icon{
@@ -63,7 +63,7 @@
 .footer{
     display:flex;
     justify-content: flex-end;
-    margin:2px 3px;
+    margin:10px 3px;
 }
 
 .inviteclose button {

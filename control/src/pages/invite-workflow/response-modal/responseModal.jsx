@@ -83,10 +83,10 @@ const Modal = () => {
           </div>
           <div className={styles.footer}>
             <div className={styles.done}>
-                <button onClick={onClose}>Done</button>
+                <button style={{color:'#00b87c' , backgroundColor:'white' , border:'1px solid #00b87c'}}>Send more invites</button>
             </div>
             <div className={styles.done}>
-                <button style={{color:'#00b87c' , backgroundColor:'white' , border:'1px solid #00b87c'}}>Send more invites</button>
+                <button onClick={onClose}>Done</button>
             </div>
           </div>
           
