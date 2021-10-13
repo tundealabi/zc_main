@@ -59,7 +59,13 @@ const TextArea = styled.textarea`
   min-height: 8em;
   width: 100%;
   padding: 10px 0;
+
+  &:focus {
+    color: black !important;
+  }
 `
+
+const Label = styled.label``;
 
 const Image = styled.img``
 
@@ -87,7 +93,13 @@ function NewInviteModal({ openModal, setOpenModal }) {
         </Container>
 
         <Container className="invite-modal-textarea">
-          <TextArea placeholder="name@gmail.com"></TextArea>
+          <Label for="emails"></Label>
+          <TextArea
+            placeholder="name@gmail.com"
+            name="emails"
+            id="emails"
+            required
+          ></TextArea>
         </Container>
 
         <Container className="invite-modal-sendBtn">
