@@ -1,7 +1,7 @@
-import Footer from '../../components/Footer'
-import Content from './components/Content'
-import { Helmet } from 'react-helmet'
-import Header from '../../components/Header'
+import Footer from "../../components/Footer"
+import Content from "./components/Content"
+import { Helmet } from "react-helmet"
+import Header from "../../components/Header"
 
 const TermsCondition = () => {
   return (
@@ -11,6 +11,8 @@ const TermsCondition = () => {
       </Helmet>
       <Header />
       <Content />
-
+    </div>
+  )
+}
 
 export default TermsCondition
