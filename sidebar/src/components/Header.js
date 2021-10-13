@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import styles from "../styles/Sidebar.module.css"
 import { MdKeyboardArrowDown } from "react-icons/md"
 import newMsgIcon from "../assets/icons/newMsgIcon.svg"
+import Modal from "./invite-workflow/response-modal/responseModal"
 import NewInviteModal from "./newInviteModal.js/newInviteModal"
 
 const SidebarHeader = props => {
@@ -41,7 +42,7 @@ const SidebarHeader = props => {
             >
               <MdKeyboardArrowDown />
             </span>{" "}
-            {<NewInviteModal />}
+            {openModal && <NewInviteModal openModal={openModal} setOpenModal={setOpenModal}/>}
           </div>
           <div className={`row ${styles.newMessage}`}>
             <img
