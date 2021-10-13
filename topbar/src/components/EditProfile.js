@@ -26,7 +26,6 @@ const EditProfile = () => {
   const [state, setState] = useState({
     name: user.name,
     display_name: user.display_name,
-    pronouns: user.pronouns,
     role: user.role,
     image_url: user.image_url,
     bio: "",
@@ -126,7 +125,6 @@ const EditProfile = () => {
     const data = {
       name: state.name,
       display_name: state.display_name,
-      pronouns: state.pronouns,
       phone: state.phone,
       bio: state.bio,
       timeZone: state.timezone
@@ -211,21 +209,6 @@ const EditProfile = () => {
                     uses your exact name, you should change it!
                   </p>
                 </div>
-                <div className="input-group">
-                  <label htmlFor="pronouns" className="inputLabel">
-                    Pronouns
-                  </label>
-                  <select
-                    name="pronouns"
-                    defaultValue={state.pronouns}
-                    onClick={e => setState({ pronouns: e.target.value })}
-                    className="select"
-                    id="pronouns"
-                  >
-                    <option value="He/him">He/him</option>
-                    <option value="She/her">She/her</option>
-                  </select>
-                </div>
               </div>
 
               <div className="input-group mb-0">
@@ -284,10 +267,11 @@ const EditProfile = () => {
                 </div>
               </div>
               <div className="input-group">
-                <label className="inputLabel">Time Zone</label>
+                <label className="inputLabel col-12">Time Zone</label>
                 <TimezoneSelect
                   value={selectedTimezone}
                   onChange={setSelectedTimezone}
+                  className="col-12"
                 />
               </div>
               <div className="input-group">
@@ -330,7 +314,20 @@ const EditProfile = () => {
                   </p>
                 )} */}
               </div>
+              <button onClick={handleFormSubmit} className="btns saveBtn">
+                {state.loading ? (
+                  <Loader
+                    type="ThreeDots"
+                    color="#fff"
+                    height={40}
+                    width={40}
+                  />
+                ) : (
+                  "Save Changes"
+                )}
+              </button>
             </div>
+
             <div className="img-container">
               <div className="avatar">
                 <div className="avatar-container">
@@ -383,7 +380,7 @@ const EditProfile = () => {
 
           <div onClick={handleFormSubmit} className="mobileButton">
             {state.loading ? (
-              <Loader type="ThreeDots" color="#00B87C" height={24} width={24} /> && toggleModalState()
+              <Loader type="ThreeDots" color="#00B87C" height={24} width={24} />
             ) : (
               "Save"
             )}
@@ -392,13 +389,13 @@ const EditProfile = () => {
             <button className="btns cncBtn" onClick={toggleModalState}>
               Cancel
             </button>
-            <button onClick={handleFormSubmit} className="btns saveBtn">
+            {/* <button onClick={handleFormSubmit} className="btns saveBtn">
               {state.loading ? (
-                <Loader type="ThreeDots" color="#fff" height={40} width={40} /> && toggleModalState()
+                <Loader type="ThreeDots" color="#fff" height={40} width={40} />
               ) : (
                 "Save Changes"
               )}
-            </button>
+            </button> */}
           </div>
           <Toaster />
         </StyledProfileWrapper>
