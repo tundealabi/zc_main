@@ -51,11 +51,14 @@ const Sidebar = props => {
       <Header state={props.state} />
       <div className={`${styles.subCon2}`}>
         <Fragment>
-          <Room name="Threads" image={threadIcon} icon={infoIcon} />
+          <Room name="Threads" image={threadIcon} />
+          <Room name="All DMs" image={dmIcon} />
+          <Room name="Drafts" image={draftIcon} />
+          <Room name="Plugins" image={pluginIcon} />
+          {/* <Room name="Threads" image={threadIcon} icon={infoIcon} />
           <Room name="All DMs" image={dmIcon} icon={infoIcon} />
           <Room name="Drafts" image={draftIcon} icon={infoIcon} />
-
-          <Room name="Plugins" image={pluginIcon} icon={infoIcon} />
+          <Room name="Plugins" image={pluginIcon} icon={addIcon} link="/marketplace" /> */}
 
           {/* company files plugin */}
           {props.state.sidebar &&

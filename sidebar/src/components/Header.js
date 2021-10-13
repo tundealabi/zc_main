@@ -36,7 +36,10 @@ const SidebarHeader = props => {
               className={`col-4 p-0 ${styles.sidebar__header__arrow}`}
               onClick={() => showModal()}
             >
-              <MdKeyboardArrowDown />
+              <MdKeyboardArrowDown
+                className={`my-auto`}
+                style={{ color: `#fff` }}
+              />
             </span>{" "}
             {openModal && (
               <NewInviteModal
