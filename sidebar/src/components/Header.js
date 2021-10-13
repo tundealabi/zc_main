@@ -2,8 +2,7 @@ import React, { useState } from "react"
 import styles from "../styles/Sidebar.module.css"
 import { MdKeyboardArrowDown } from "react-icons/md"
 import newMsgIcon from "../assets/icons/newMsgIcon.svg"
-import NewInviteModal from "./invite-workflow/newInviteModal.js/newInviteModal"
-
+import NewInviteModal from "./invite-workflow/newInviteModal/newInviteModal"
 
 const SidebarHeader = props => {
   //home modal
