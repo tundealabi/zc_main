@@ -3,6 +3,7 @@ import styles from "../styles/Sidebar.module.css"
 import { MdKeyboardArrowDown } from "react-icons/md"
 import newMsgIcon from "../assets/icons/newMsgIcon.svg"
 
+
 const SidebarHeader = props => {
   //home modal
   const [homeModal, toggleHomeModal] = useState(false)
@@ -12,15 +13,19 @@ const SidebarHeader = props => {
     toggleHomeModal(!homeModal)
     document.removeEventListener("click", toggle)
   }
+
   return (
     <div className={`${styles.subCon1}`}>
       <div className={`row ${styles.orgDiv}`}>
         <div className={`col-12 px-3 ${styles.orgInfo}`}>
           <div
-            onClick={() => toggle()}
+            // onClick={() => toggle()}
             className={`row p-0 ${styles.orgHeader}`}
           >
-            <span className={`col-8 mb-0 ${styles.orgTitle}`}>
+            <span
+              className={`col-8 mb-0 ${styles.orgTitle}`}
+              onClick={() => alert("CLICKEDDDD")}
+            >
               {props.state.organization_info &&
                 props.state.organization_info.name}
             </span>
