@@ -5,12 +5,15 @@ import styled from "styled-components"
 const Container = styled.div`
   &.invite-modal-main {
     position: absolute;
-    background: grey!important;
-    min-width: 100vw;
-    min-height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: grey !important;
+    z-index: 2;
   }
 
-  &.invite-modal-header {
+  &.invite-modal-innerContainer {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -18,7 +21,11 @@ const Container = styled.div`
     min-width: 50%;
     display: flex;
     margin-bottom: 1em;
-    background: white!important;
+    background: white !important;
+  }
+
+  &.invite-modal-header {
+    display: flex;
   }
 
   &.invite-modal-sendBtn {
@@ -35,22 +42,21 @@ const Button = styled.button``
 function NewInviteModal() {
   return (
     <Container className="invite-modal-main">
-      <Container className="invite-modal-header">
-        <Text>Invite people to HNGi8</Text>
-        <Button>
-        
-        </Button>
-      </Container>
+      <Container className="invite-modal-innerContainer">
+        <Container className="invite-modal-header">
+          <Text>Invite people to HNGi8</Text>
+          <Button></Button>
+        </Container>
 
-      <Container>
-        <TextArea placeholder="name@gmail.com"></TextArea>
-      </Container>
+        <Container>
+          <TextArea placeholder="name@gmail.com"></TextArea>
+        </Container>
 
-      <Container className="invite-modal-sendBtn">
-        <Button>Send</Button>
+        <Container className="invite-modal-sendBtn">
+          <Button>Send</Button>
+        </Container>
       </Container>
     </Container>
   )
 }
-
 export default NewInviteModal
