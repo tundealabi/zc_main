@@ -1,13 +1,14 @@
-import React, { useState } from "react"
+import React, { useEffect, useState, useMemo } from "react"
 import styles from "../styles/Sidebar.module.css"
 import { MdKeyboardArrowDown } from "react-icons/md"
 import newMsgIcon from "../assets/icons/newMsgIcon.svg"
-import Modal from "./invite-workflow/response-modal/responseModal"
-import NewInviteModal from "./newInviteModal.js/newInviteModal"
+import { GetWorkspaceUsers } from '@zuri/control'
 
 const SidebarHeader = props => {
   //home modal
-  const [homeModal, toggleHomeModal] = useState(false)
+  const [homeModal, toggleHomeModal] = useState(true)
+
+  const [openModal, setOpenModal] = useState(true)
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -18,9 +19,26 @@ const SidebarHeader = props => {
   }
 
   const showModal = () => {
-    setOpenModal(!openModal);
-  }
+ }
 
+  const CheckUsers = async () => {
+    try{
+      const details = await GetWorkspaceUsers();
+    }
+    catch(error){
+      console.log('Error', error);
+    }
+  }
+  useEffect(() => {
+    CheckUsers();
+
+  }, []);
+
+  const inviteConfig = useMemo(() => () => ({
+    
+  }), input)
+
+  
   return (
     <div className={`${styles.subCon1}`}>
       <div className={`row ${styles.orgDiv}`}>
@@ -40,9 +58,6 @@ const SidebarHeader = props => {
               className={`col-4 p-0 ${styles.sidebar__header__arrow}`}
               onClick={() => showModal()}
             >
-              <MdKeyboardArrowDown />
-            </span>{" "}
-            {openModal && <NewInviteModal openModal={openModal} setOpenModal={setOpenModal}/>}
           </div>
           <div className={`row ${styles.newMessage}`}>
             <img
@@ -59,9 +74,11 @@ const SidebarHeader = props => {
               <ModalComponent
                 workSpace={org}
                 isOpen={homeModal}
-                toggleOpenInvite={toggleOpenInvite}
+        //  toggleOpenInvite={toggleOpenInvite}
               />
             </div>
+          {/*
+
 
             <Modall showDialog={showDialog} closeDialog={close} />
 
