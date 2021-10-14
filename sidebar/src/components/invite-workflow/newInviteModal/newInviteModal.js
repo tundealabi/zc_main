@@ -3,20 +3,20 @@ import styled from "styled-components"
 import { ACTIONS } from "../../../App"
 import useClickOutside from "../customHooks/useClickOutside"
 import cancel from "./assets/cancel.svg"
-import { sendInviteAPI } from "./new-invite.utils"
-
-const Container = styled.div`
+import { sendInviteAPI } from "./new-invite.utils"const Container = styled.div`
   display: block !important;
 
   &.invite-modal-main {
     position: fixed;
-    top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.5;
-    background: grey !important;
-    z-index: 10;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999999999;
   }
 
   &.invite-modal-innerContainer {
@@ -24,21 +24,35 @@ const Container = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    min-width: 30%;
-    padding: 1em;
+    padding: 0.65em 1em;
     display: flex;
     margin-bottom: 1em;
     background: white !important;
+    width: 600px;
+    background-color: #fff;
+    border-radius: 10px;
+
+    @media (max-width: 768px){
+      width: 80%;
+    }
   }
 
   &.invite-modal-header {
     display: flex !important;
     justify-content: space-between !important;
+    margin:1em 0.65em;
   }
 
-  &.invite-modal-textarea,
+  &.invite-modal-textarea{
+    width:100%;
+    display: flex !important;
+    justify-content:center;
+    align-items:center;
+    margin:1em 0;
+  }
   &.invite-modal-btnContainer {
     display: block !important;
+    margin:1em 0.65em;
   }
 
   &.invite-modal-sendBtn {
@@ -52,16 +66,18 @@ const Container = styled.div`
   }
 `
 const Text = styled.h3`
-  color: black !important;
   font-weight: 800 !important;
   padding: 0 !important;
+  margin: 10px 0;
+  font-size:2rem;
+  color:black;
 `
 
 const TextArea = styled.textarea`
   border: 1px solid black !important;
   min-height: 8em;
-  width: 100%;
-  padding: 10px 0;
+  width: 85%;
+  padding: 15px 20px;
 
   &:focus {
     color: black !important;
@@ -75,16 +91,24 @@ const Image = styled.img``
 const Button = styled.button`
   outline: none;
   background: transparent;
+  border:none;
 
   &.invite-sendBtn {
-    display: flex !important;
-    justify-content: flex-end;
-    background: #00b87c !important;
+    float:right;
     color: white !important;
-    padding: 0.5rem !important;
-    border-radius: 0.2rem !important;
+    background-color: #00b87c;
+    color: #ffffff;
+    font-size:20px;
+    border-radius: 3px;
+    padding: 10px 15px;
+    border: none;
+
+    &:hover {
+      transform: scale(1.1)
+    }
   }
 `
+
 
 function NewInviteModal(props) {
   const [emailField, setEmailField] = useState("")
