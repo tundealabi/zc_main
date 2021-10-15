@@ -1,14 +1,16 @@
-import React, { useState } from "react"
+import React, { useEffect, useState, useMemo } from "react"
 import styles from "../styles/Sidebar.module.css"
 import { MdKeyboardArrowDown } from "react-icons/md"
 import newMsgIcon from "../assets/icons/newMsgIcon.svg"
-import NewInviteModal from "./invite-workflow/newInviteModal/newInviteModal"
+import { GetWorkspaceUsers } from '@zuri/control'
 
 const SidebarHeader = props => {
   //home modal
   const [homeModal, toggleHomeModal] = useState(true)
 
   const [openModal, setOpenModal] = useState(true)
+
+  const [openModal, setOpenModal] = useState(false);
 
   //toggle
   const toggle = () => {
@@ -17,18 +19,38 @@ const SidebarHeader = props => {
   }
 
   const showModal = () => {
-    setOpenModal(!openModal)
-  }
+ }
 
+  const CheckUsers = async () => {
+    try{
+      const details = await GetWorkspaceUsers();
+    }
+    catch(error){
+      console.log('Error', error);
+    }
+  }
+  useEffect(() => {
+    CheckUsers();
+
+  }, []);
+
+  const inviteConfig = useMemo(() => () => ({
+    
+  }), input)
+
+  
   return (
     <div className={`${styles.subCon1}`}>
       <div className={`row ${styles.orgDiv}`}>
         <div className={`col-12 px-3 ${styles.orgInfo}`}>
           <div
-            onClick={() => toggle()}
+            // onClick={() => toggle()}
             className={`row p-0 ${styles.orgHeader}`}
           >
-            <span className={`col-8 mb-0 ${styles.orgTitle}`}>
+            <span
+              className={`col-8 mb-0 ${styles.orgTitle}`}
+             
+            >
               {props.state.organization_info &&
                 props.state.organization_info.name}
             </span>
@@ -36,17 +58,6 @@ const SidebarHeader = props => {
               className={`col-4 p-0 ${styles.sidebar__header__arrow}`}
               onClick={() => showModal()}
             >
-              <MdKeyboardArrowDown
-                className={`my-auto`}
-                style={{ color: `#fff` }}
-              />
-            </span>{" "}
-            {/* {openModal && (
-              <NewInviteModal
-                openModal={openModal}
-                setOpenModal={setOpenModal}
-              />
-            )} */}
           </div>
           <div className={`row ${styles.newMessage}`}>
             <img

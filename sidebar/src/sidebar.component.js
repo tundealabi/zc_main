@@ -59,18 +59,6 @@ const Sidebar = props => {
           <Room name="Drafts" image={draftIcon} />
   <Room name="Plugins" image={pluginIcon} />*/}
 
-          {/* SIDE BAR DATA */}
-          <SingleRoom name="Threads" image={threadIcon} />
-          <SingleRoom name="All Dms" image={dmIcon} />
-          <SingleRoom name="Drafts" image={draftIcon} />
-
-          <SingleRoom name="Plugins" image={pluginIcon} link="/marketplace" />
-
-          <Category name="games" state={props.state} />
-          <Category name="utility" state={props.state} />
-          <Category name="tools" state={props.state} />
-          <Category name="productivity" state={props.state} />
-
           <Category name="channels" state={props.state} />
           <Category name="direct messages" state={props.state} />
           {/* button for inviting users to workspace */}
