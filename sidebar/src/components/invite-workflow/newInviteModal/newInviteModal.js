@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { ACTIONS } from "../../../App"
 import useClickOutside from "../customHooks/useClickOutside"
@@ -7,6 +7,7 @@ import { sendInviteAPI } from "./new-invite.utils"
 
 const Container = styled.div`
   @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+
   display: block !important;
 
   &.invite-modal-main {
@@ -53,6 +54,7 @@ const Container = styled.div`
     align-items: center;
     margin: 1em 0;
   }
+
   &.invite-modal-btnContainer {
     display: block !important;
     margin: 1em 0.65em;
@@ -67,18 +69,42 @@ const Container = styled.div`
   &.invite-modal-sendBtn {
     width: 100%;
   }
+
+  &.tag-item {
+    background-color: #00b87c1a;
+    font-size: 14px;
+    border-radius: 30px;
+    height: 30px;
+    padding: 0 4px 0 1rem;
+    display: inline-flex;
+    flex-direction: row;
+    align-self: flex-start;
+    margin: 0 0.3rem 0.3rem 0;
+  }
 `
 const Text = styled.h3`
   font-weight: 700 !important;
   padding: 0 !important;
   margin: 10px 0;
   font-size: 2rem;
-  font-family: "Lato";
+  font-family: 'Lato', sans-serif;
   color: black;
 `
 
-const TextArea = styled.textarea`
-  border: 1px solid black !important;
+// const TextArea = styled.textarea`
+//   border: 1px solid black !important;
+//   min-height: 8em;
+//   width: 85%;
+//   padding: 15px 20px;
+//   resize: none;
+
+//   &:focus {
+//     color: black !important;
+//   }
+// `
+
+const Input = styled.input`
+  border: 1px solid green !important;
   min-height: 8em;
   width: 85%;
   padding: 15px 20px;
@@ -90,14 +116,14 @@ const TextArea = styled.textarea`
 `
 
 const Label = styled.label`
-  font-family: Lato;
+  font-family: 'Lato', sans-serif;
   font-weight: 700;
   font-size: 1.05rem;
   margin: 10px 20px;
   align-self: flex-start;
 `
 
-const Image = styled.img``
+const Image = styled.img
 
 const Button = styled.button`
   outline: none;
@@ -108,9 +134,8 @@ const Button = styled.button`
     float: right;
     color: white !important;
     background-color: #00b87c;
-    color: #ffffff;
     font-size: 17px;
-    font-family: Lato;
+    font-family: 'Lato', sans-serif;
     border-radius: 3px;
     padding: 10px 18px;
     border: none;
@@ -121,10 +146,33 @@ const Button = styled.button`
       transform: scale(1.1);
     }
   }
+
+  &.tag-button {
+    background-color: #00b87c1a;
+    width: 25px;
+    height: 30px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    margin-left: 10px;
+    font-weight: bold;
+    padding: 0;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
 `
 
 function NewInviteModal(props) {
-  const [emailField, setEmailField] = useState("")
+  // const [emailField, setEmailField] = useState("")
+  const input = useRef(null);
+  const [state, setState] = useState({
+    items: [],
+    value: "",
+    error: null
+  });
   const [showInviteModal, setShowInviteModal] = useState(true)
   const handleCloseInviteModal = () => {
     props.dispatch({
@@ -167,45 +215,134 @@ function NewInviteModal(props) {
     })
   }
 
+  const handleDelete = (item) => {
+    setState({
+      ...state,
+      items: state.items.filter((i) => i !== item)
+    });
+  };
+
+  const handleKeyUp = (evt) => {
+    setState({
+      ...state,
+      value: evt.target.value
+    });
+    if (state.value.length > 0) a(evt);
+  };
+
+  const a = (evt) => {
+    if (["Enter", "Tab", ","].includes(evt.key)) {
+      evt.preventDefault();
+      let value = state.value.trim();
+
+      if (value && isValid(value)) {
+        setState({
+          ...state,
+          items: [...state.items, evt.target.value],
+          value: ""
+        });
+        input.current.value = "";
+      }
+    }
+  };
+
+  const handleChange = (evt) => {
+    setState({
+      ...state,
+      value: evt.target.value,
+      error: null
+    });
+  };
+
+  const handlePaste = (evt) => {
+    evt.preventDefault();
+
+    var paste = evt.clipboardData.getData("text");
+    var emails = paste.match(/[\w\d\\.-]+@[\w\d\\.-]+\.[\w\d\\.-]+/g);
+
+    if (emails) {
+      let toBeAdded = emails.filter((email) => !isInList(email));
+
+      setState({
+        ...state,
+        items: [...state.items, ...toBeAdded]
+      });
+    }
+  };
+
+  function isValid(email) {
+    let error = null;
+
+    if (isInList(email)) {
+      error = `${email} has already been added.`;
+    }
+
+    if (!isEmail(email)) {
+      error = `${email} is not a valid email address.`;
+    }
+
+    if (error) {
+      setState({ ...state, error });
+
+      return false;
+    }
+
+    return true;
+  }
+
+  function isInList(email) {
+    return state.items.includes(email);
+  }
+
+  function isEmail(email) {
+    return /[\w\d\\.-]+@[\w\d\\.-]+\.[\w\d\\.-]+/.test(email);
+  }
+
   const handleSendInvite = async () => {
     handleCloseInviteModal()
     isLoading(true)
-    let emailsValidated = true
-    const re =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    const splitEmails = emailField.trim().replaceAll(" ", "").split(",")
-    splitEmails.forEach(email => {
-      if (!re.test(email)) {
-        emailsValidated = false
-      }
-    })
-    if (emailsValidated) {
-      try {
-        const response = await sendInviteAPI(
-          emailField.trim().replaceAll(" ", "").split(",")
-        )
-        if (response.status === 200) {
-          setEmailField("")
-          handleCloseInviteModal()
-          modalToShow("success")
-
-          isLoading(false)
-          isOpen(false)
-        }
-      } catch (err) {
-        setEmailField("")
+    // let emailsValidated = true
+    
+    // const re =
+    //   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    // const splitEmails = emailField.trim().replaceAll(" ", "").split(",")
+    // splitEmails.forEach(email => {
+    //   if (!re.test(email)) {
+    //     emailsValidated = false
+    //   }
+    // })
+    try {
+      const response = await sendInviteAPI(
+        state.items
+      )
+      if (response.status === 200) {
+        // setEmailField("")
+        setState({
+          items: [], 
+          value: "",
+          error: null
+        })
         handleCloseInviteModal()
-        modalToShow("error")
+        modalToShow("success")
+
         isLoading(false)
         isOpen(false)
       }
-    } else {
-      setEmailField("")
+    } catch (err) {
+      // setEmailField("")
       handleCloseInviteModal()
-      showMessage("Invalid Email")
       modalToShow("error")
+      isLoading(false)
       isOpen(false)
     }
+    // if (emailsValidated) {
+    // } else {
+    //   // setEmailField("")
+    //   handleCloseInviteModal()
+    //   showMessage("Invalid Email")
+    //   modalToShow("error")
+    //   isOpen(false)
+    // }
   }
 
   useEffect(() => {
@@ -229,14 +366,41 @@ function NewInviteModal(props) {
 
           <Container className="invite-modal-textarea">
             <Label for="emails">To :</Label>
-            <TextArea
+
+            {state.items.map(item => (
+              <Container className="tag-item" key={item}>
+                {item}
+                <Button
+                  type="button"
+                  className="tag-button"
+                  onClick={() => handleDelete(item)}
+                >
+                  &times;
+                </Button>
+              </Container>
+            ))}
+
+            <Input
+              ref={input}
+              className={"input " + (state.error && " has-error")}
+              // value={state.value}
+              placeholder="Type or paste email addresses and press `Enter`..."
+              onKeyUp={handleKeyUp}
+              onChange={handleChange}
+              onPaste={handlePaste}
+            />
+
+            {state.error && <p className="error">{state.error}</p>}
+            {/* <TextArea
               placeholder="name@gmail.com"
               name="emails"
               id="emails"
-              value={emailField}
-              onChange={evt => setEmailField(evt.target.value)}
+              // value={emailField}
+              onChange={evt => {
+                setEmailList()
+              }}
               required
-            ></TextArea>
+            ></TextArea> */}
           </Container>
 
           <Container className="invite-modal-sendBtn">
