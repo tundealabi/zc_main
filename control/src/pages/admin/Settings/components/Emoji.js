@@ -3,7 +3,7 @@ import { authAxios } from "../../Utils/Api"
 // import { ProfileContext } from "../../../../../../topbar/src/context/ProfileModal"
 import toast from "react-hot-toast"
 import Picker from "emoji-picker-react"
-// import ForwardIcon from "../../../resources/assests/ForwardIcon.svg"
+// import ForwardIcon from "../../../resources/assets/ForwardIcon.svg"
 import classes from "../styles/EmojiTab.module.css"
 
 const Emoji = () => {
@@ -350,6 +350,7 @@ const Emoji = () => {
               <button>{commentIcon}</button>
               <button>
                 {/* <img src={ForwardIcon} alt="" /> */}
+                <img src={forwardIcon} alt="" />
               </button>
               <button>{bookmarkIcon}</button>
               <button>{optionsIcon}</button>
